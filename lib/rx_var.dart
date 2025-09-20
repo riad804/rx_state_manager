@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-/// Reactive variable like GetX Rx<T>
 class RxVar<T> {
   final BehaviorSubject<T> _subject;
 
-  RxVar([T? initial])
-      : _subject = BehaviorSubject<T>.seeded(initial as T);
+  RxVar([T? initial]) : _subject = BehaviorSubject<T>.seeded(initial as T);
 
   /// Current value
   T get value => _subject.value;

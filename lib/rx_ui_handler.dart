@@ -7,17 +7,14 @@ class ObRx extends StatelessWidget {
   final Widget Function() builder;
   final List<RxVar> listenTo;
 
-  const ObRx({
-    super.key,
-    required this.builder,
-    required this.listenTo,
-  });
+  const ObRx({super.key, required this.builder, required this.listenTo});
 
   @override
   Widget build(BuildContext context) {
     // Combine all RxVar streams into one
     final stream = Rx.combineLatest<dynamic, int>(
-      listenTo.map((rx) => rx.stream), (_) => 0,
+      listenTo.map((rx) => rx.stream),
+      (_) => 0,
     );
 
     return StreamBuilder<int>(

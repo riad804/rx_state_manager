@@ -24,8 +24,8 @@ abstract class RxController {
   }
 
   /// Worker helpers (auto-dispose)
-  void ever<T>(RxVar<T> rx, void Function(T) worker) {
-    addWorker(rx.stream.listen(worker));
+  void ever<T>(RxVar<T> rx, void Function(T?) worker) {
+    addWorker(rx.stream.skip(1).listen(worker));
   }
 
   void debounce<T>(
@@ -36,13 +36,10 @@ abstract class RxController {
     addWorker(rx.stream.debounceTime(duration).listen(worker));
   }
 
-  void everAll(
-    List<RxVar> list,
-    void Function(List values) worker,
-  ) {
+  void everAll(List<RxVar> list, void Function(List values) worker) {
     void trigger() => worker(list.map((e) => e.value).toList());
     for (final rx in list) {
-      addWorker(rx.stream.listen((_) => trigger()));
+      addWorker(rx.stream.skip(1).listen((_) => trigger()));
     }
   }
 
@@ -60,6 +57,6 @@ abstract class RxController {
       worker(rx.value);
     }
 
-    addWorker(s.listen(worker));
+    addWorker(s.skip(1).listen(worker));
   }
 }
