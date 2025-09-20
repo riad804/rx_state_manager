@@ -1,9 +1,9 @@
-name: rx_state
+name: rx_state_manager
 description: "A lightweight reactive state management built on rxdart."
 version: 0.0.1
-homepage: https://github.com/riad804/rx_state
-repository: https://github.com/riad804/rx_state
-issue_tracker: https://github.com/riad804/rx_state/issues
+homepage: https://github.com/riad804/rx_state_manager
+repository: https://github.com/riad804/rx_state_manager
+issue_tracker: https://github.com/riad804/rx_state_manager/issues
 
 environment:
   sdk: ^3.9.2

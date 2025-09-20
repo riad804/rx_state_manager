@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rx_state/rx_controller.dart';
-import 'package:rx_state/rx_var.dart';
+import 'package:rx_state_manager/rx_state_manager.dart';
 
 class TestController extends RxController {
   final count = RxVar<int>(0);
