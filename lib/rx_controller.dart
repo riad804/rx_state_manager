@@ -1,6 +1,4 @@
-import 'dart:async';
-import 'package:rxdart/rxdart.dart';
-import 'rx_var.dart';
+import 'package:rx_state_manager/rx_state_manager.dart';
 
 /// Base controller like GetxController but uses rxdart
 abstract class RxController {
@@ -58,5 +56,16 @@ abstract class RxController {
     }
 
     addWorker(s.skip(1).listen(worker));
+  }
+
+  void bindState<T>(RxState<T> stateVar, Stream<T> source) {
+    addWorker(source.listen(
+      (data) => stateVar.value = RxData<T>(data),
+      onError: (e, st) => stateVar.value = RxError<T>(UnknownFailure(
+        e.toString(),
+        error: e,
+        stackTrace: st,
+      )),
+    ));
   }
 }

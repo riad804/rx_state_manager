@@ -1,26 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
-
-import 'rx_var.dart';
+import 'package:rx_state_manager/rx_state_manager.dart';
 
 class ObRx extends StatelessWidget {
   final Widget Function() builder;
-  final List<RxVar> listenTo;
+  final List<dynamic> listenTo;
 
   const ObRx({super.key, required this.builder, required this.listenTo});
 
   @override
   Widget build(BuildContext context) {
-    // Combine all RxVar streams into one
-    final stream = Rx.combineLatest<dynamic, int>(
-      listenTo.map((rx) => rx.stream),
+    final streams = listenTo.map<Stream<dynamic>>((item) {
+      if (item is RxVar) return item.stream;
+      if (item is RxState) return item.stream;
+      throw Exception("ObRx only supports RxVar or RxState");
+    }).toList();
+
+    final combinedStream = Rx.combineLatest<dynamic, int>(
+      streams,
       (_) => 0,
     );
 
     return StreamBuilder<int>(
-      stream: stream,
+      stream: combinedStream,
       builder: (context, snapshot) {
-        // snapshot is ignored; we rebuild when any emits
         return builder();
       },
     );
